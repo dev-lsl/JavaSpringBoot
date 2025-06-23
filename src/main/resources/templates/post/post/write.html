@@ -18,8 +18,7 @@
 
     const errorFieldName = lastForm.previousElementSibling?.querySelector('li')?.dataset?.errorFieldName || '';
 
-    if ( errorFieldName.length > 0 )
-    {
+    if (errorFieldName.length > 0) {
         lastForm[errorFieldName].focus();
     }
 </script>
