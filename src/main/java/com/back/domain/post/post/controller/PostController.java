@@ -28,7 +28,8 @@ public class PostController {
                 <div style="color: red;">%s</div>
                 
                 <form method="POST" action="doWrite">
-                  <input type="text" name="title" placeholder="제목" value="%s">                  <br>
+                  <input type="text" name="title" placeholder="제목" value="%s" autofocus>
+                  <br>
                   <textarea name="content" placeholder="내용">%s</textarea>
                   <br>
                   <input type="submit" value="작성">
