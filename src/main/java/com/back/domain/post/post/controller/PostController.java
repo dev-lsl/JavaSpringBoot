@@ -61,9 +61,8 @@ public class PostController {
     }
 
     @GetMapping("/posts/write")
-    @ResponseBody
     public String showWrite() {
-        return getWriteFormHtml();
+        return "post/post/write";
     }
 
 
