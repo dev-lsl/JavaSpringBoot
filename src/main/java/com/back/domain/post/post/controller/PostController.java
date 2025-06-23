@@ -34,7 +34,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/write")
-    public String showWrite(@Valid WriteForm form) {
+    public String showWrite(WriteForm form) {
         return "post/post/write";
     }
 
