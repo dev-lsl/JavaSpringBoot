@@ -2,7 +2,7 @@
 
 <form method="POST" action="doWrite" th:object="${form}">
     <ul th:if="${#fields.hasAnyErrors()}">
-        <li data-error-field-name="title" th:each="err : ${#fields.allErrors().stream().sorted()}" th:text="${err.split('-', 3)[2]}"
+        <li data-error-field-name="${err.split('-', 3)[1]}" th:each="err : ${#fields.allErrors().stream().sorted()}" th:text="${err.split('-', 3)[2]}"
             style="color: red;"/>
     </ul>
 
