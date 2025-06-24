@@ -44,6 +44,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}/modify")
+    @Transactional(readOnly = true)
     public String showModify(
             @PathVariable int id,
             @ModelAttribute("form") ModifyForm form,
@@ -56,6 +57,26 @@ public class PostController {
         form.setContent(post.getContent());
 
         return "post/post/modify";
+    }
+
+    @PostMapping("/posts/{id}/modify")
+    @Transactional
+    public String modify(
+            @PathVariable int id,
+            @Valid @ModelAttribute("form") ModifyForm form,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        Post post = postService.findById(id).get();
+        model.addAttribute("post", post);
+
+        if (bindingResult.hasErrors()) {
+            return "post/post/modify";
+        }
+
+        postService.modify(post, form.getTitle(), form.getContent());
+
+        return "redirect:/posts/" + post.getId();
     }
 
 
