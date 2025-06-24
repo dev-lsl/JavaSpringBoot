@@ -100,8 +100,7 @@ public class PostController {
     @Transactional
     public String write(
             @ModelAttribute("form") @Valid WriteForm form,
-            BindingResult bindingResult,
-            Model model
+            BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
             return "post/post/write";
