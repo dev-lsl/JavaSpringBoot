@@ -17,6 +17,22 @@
 <script>
     function PostComment__submitWriteForm(form) {
         form.content.value = form.content.value.trim();
+
+        if (form.content.value.length === 0) {
+            alert("댓글 내용을 입력해주세요.");
+            form.content.focus();
+
+            return;
+        }
+
+        if (form.content.value.length < 2) {
+            alert("댓글 내용을 2자 이상 입력해주세요.");
+            form.content.focus();
+
+            return;
+        }
+
+        form.submit();
     }
 </script>
 
