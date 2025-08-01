@@ -6,6 +6,7 @@ import com.back.domain.post.post.dto.PostDto;
 import com.back.domain.post.post.entity.Post;
 import com.back.domain.post.post.repository.PostRepository;
 import com.back.domain.post.post.service.PostService;
+import com.back.global.exception.ServiceException;
 import com.back.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -69,7 +70,9 @@ public class ApiV1PostController {
             String title,
             @NotBlank
             @Size(min = 2, max = 5000)
-            String content
+            String content,
+            @NotBlank @Size(min = 2, max =30 ) String username,
+            @NotBlank @Size(min = 2, max = 30) String password
     ) {
     }
 
@@ -85,7 +88,11 @@ public class ApiV1PostController {
     public RsData<PostWriteResBody> write(
             @Valid @RequestBody PostWriteReqBody reqBody
     ) {
-        Member author = memberService.findByUsername("user1").get(); // 임시로 user1으로 작성
+        Member author = memberService.findByUsername(reqBody.username)
+                .orElseThrow(() -> new ServiceException("404-1", "존재하지 않는 회원입니다."));
+        if (!author.getPassword().equals(reqBody.password)) {
+            throw new ServiceException("403-1", "비밀번호가 일치하지 않습니다.");
+        }
 
         Post post = postService.write(author ,reqBody.title, reqBody.content);
 
