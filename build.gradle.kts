@@ -24,20 +24,26 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+    // Spring web
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-    testImplementation("org.springframework.security:spring-security-test")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+
+    implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // Lombok
     compileOnly("org.projectlombok:lombok")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
+
+    // Validation
+    implementation ("org.springframework.boot:spring-boot-starter-validation")
+    implementation ("jakarta.validation:jakarta.validation-api:3.0.2")
+
+    // devtools
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    runtimeOnly ("com.h2database:h2")
 }
 
 tasks.withType<Test> {

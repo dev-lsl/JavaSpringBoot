@@ -1,5 +1,7 @@
 package com.back.global.initData;
 
+import com.back.domain.member.entity.Member;
+import com.back.domain.member.service.MemberService;
 import com.back.domain.post.post.entity.Post;
 import com.back.domain.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,10 @@ public class BaseInitData {
     @Autowired
     @Lazy
     private BaseInitData self;
+    @Autowired
     private final PostService postService;
+    @Autowired
+    private final MemberService memberService;
 
     @Bean
     ApplicationRunner baseInitDataApplicationRunner() {
@@ -27,16 +32,32 @@ public class BaseInitData {
 
     @Transactional
     public void work1() {
+        // 유저 생성
+        if (memberService.count() > 0) return;
+
+        memberService.join("system", "1234", "시스템");
+        memberService.join("admin", "1234", "관리자");
+        memberService.join("user1", "1234", "유저1");
+        memberService.join("user2", "1234", "유저2");
+        memberService.join("user3", "1234", "유저3");
+
+        // 게시글 생성
         if (postService.count() > 0) return;
 
-        Post post1 = postService.write("제목 1", "내용 1");
-        Post post2 = postService.write("제목 2", "내용 2");
-        Post post3 = postService.write("제목 3", "내용 3");
+        Member member1 = memberService.findByUsername("user1").get();
+        Member member2 = memberService.findByUsername("user2").get();
+        Member member3 = memberService.findByUsername("user3").get();
 
-        post1.addComment("댓글 1-1");
-        post1.addComment("댓글 1-2");
-        post1.addComment("댓글 1-3");
-        post2.addComment("댓글 2-1");
-        post2.addComment("댓글 2-2");
+        Post post1 = postService.write(member1, "루이", "루이는 바보다.");
+        Post post2 = postService.write(member2, "레오", "레오는 겁쟁이다.");
+        Post post3 = postService.write(member2, "워니", "산니미는 워니꺼다.");
+
+        post1.addComment(member1, "루이 귀요미");
+        post1.addComment(member1, "루이 멍충이");
+        post1.addComment(member2, "루이 장난꾸러기");
+        post2.addComment(member3, "레오 바보");
+        post2.addComment(member3, "레오 쨔잉나");
     }
+
+
 }

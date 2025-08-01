@@ -1,5 +1,6 @@
 package com.back.domain.post.post.service;
 
+import com.back.domain.member.entity.Member;
 import com.back.domain.post.post.entity.Post;
 import com.back.domain.post.post.repository.PostRepository;
 import com.back.domain.post.postComment.entity.PostComment;
@@ -18,8 +19,8 @@ public class PostService {
         return postRepository.count();
     }
 
-    public Post write(String title, String content) {
-        Post post = new Post(title, content);
+    public Post write(Member author, String title, String content) {
+        Post post = new Post(author,title, content);
 
         return postRepository.save(post);
     }
@@ -36,9 +37,7 @@ public class PostService {
         post.modify(title, content);
     }
 
-    public void writeComment(Post post, String content) {
-        post.addComment(content);
-    }
+    
 
     public boolean deleteComment(Post post, PostComment postComment) {
         return post.deleteComment(postComment);
@@ -46,5 +45,13 @@ public class PostService {
 
     public void modifyComment(PostComment postComment, String content) {
         postComment.modify(content);
+    }
+
+    public void delete(Post post) {
+        postRepository.delete(post);
+    }
+
+    public Optional<Post> findLastest() {
+        return postRepository.findFirstByOrderByIdDesc();
     }
 }
